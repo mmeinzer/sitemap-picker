@@ -1,11 +1,16 @@
 import React from 'react';
-import useTextInput from './useTextInput';
+import TextInput from './TextInput';
+import useInput from '../hooks/useInput';
 
 function SignUp() {
-  const [domain, DomainInput] = useTextInput('Domain');
-  const [email, EmailInput] = useTextInput('Email');
+  const [email, setEmail, emailProps] = useInput('');
+  const [domain, setDomain, domainProps] = useInput('');
 
-  console.log({ email, domain });
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log({ email, domain });
+  }
+
   return (
     <section className="container mx-auto bg-white p-8 border rounded flex flex-col items-center">
       <p className="text-3xl">Enter your homepage URL and email</p>
@@ -18,20 +23,15 @@ function SignUp() {
         width="112"
         height="112"
         alt="internet icon"
-        className="mb-8"
+        className=""
       />
-      <form
-        onSubmit={e => {
-          e.preventDefault();
-        }}
-        className="flex flex-col"
-      >
-        <DomainInput key="domain-input" />
-        <EmailInput key="email-input" />
-        <button type="submit">Next</button>
+      <form onSubmit={handleSubmit} className="flex flex-col">
+        <TextInput label="Email" {...emailProps} />
+        <TextInput label="Domain" {...domainProps} />
+        <button type="submit" className="mt-6 text-lg">
+          Next →
+        </button>
       </form>
-      <p>Domain: {domain}</p>
-      <p>Email: {email}</p>
     </section>
   );
 }
